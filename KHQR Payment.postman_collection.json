@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "def078c8-019f-45dd-b1ff-cc4e3c96df87",
+		"name": "KHQR Payment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20603069",
+		"_collection_link": "https://dark-astronaut-876095.postman.co/workspace/KHQR-Payment~15787cbe-2d53-4e35-b556-4f68c0d68265/collection/20603069-def078c8-019f-45dd-b1ff-cc4e3c96df87?action=share&creator=20603069&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Verify Bill/ Transaction(optional)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response=pm.response.json();\r",
+							"\r",
+							"pm.test(\"Submit KHQR successfully\", ()=>{\r",
+							"    pm.expect(response.message).to.eql(\"Payment success\");\r",
+							"    pm.expect(response.code).to.eql(\"SUCCESS\");\r",
+							"    pm.expect(response.data.payment_type).to.eql(\"full\");\r",
+							"});\r",
+							"\r",
+							"// Check if the response body is a JSON object\r",
+							"if (typeof response === \"object\") {\r",
+							"  // The response contains JSON data\r",
+							"  // Do something with the JSON data\r",
+							"  console.log(response);\r",
+							"  pm.test(\"response data json is Passed!\")\r",
+							"} else {\r",
+							"  // The response does not contain JSON data\r",
+							"  // Do something else\r",
+							"  console.log(\"The response does not contain JSON data\");\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{token}",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"khqr_string\":\"000201010212303400zmkbkhppxxx@amkb01032340203AMK520449005802KH5916សហ#$សស%ហ&eថ ក6010Phnom Penh540820400.0053031165502025603400622305092340005450706Bill2463044C97\",\r\n    \"ref_no\": \"\"\r\n}"
+				},
+				"url": {
+					"raw": "https://bankapi-demo.bill24.net/qr/verify",
+					"protocol": "https",
+					"host": [
+						"bankapi-demo",
+						"bill24",
+						"net"
+					],
+					"path": [
+						"qr",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit payment v1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response=pm.response.json();\r",
+							"\r",
+							"pm.test(\"Submit KHQR successfully\", ()=>{\r",
+							"    pm.expect(response.message).to.eql(\"Payment success\");\r",
+							"    pm.expect(response.code).to.eql(\"SUCCESS\");\r",
+							"    pm.expect(response.data.payment_type).to.eql(\"full\");\r",
+							"});\r",
+							"\r",
+							"// Check if the response body is a JSON object\r",
+							"if (typeof response === \"object\") {\r",
+							"  // The response contains JSON data\r",
+							"  // Do something with the JSON data\r",
+							"  console.log(response);\r",
+							"  pm.test(\"response data json is Passed!\")\r",
+							"} else {\r",
+							"  // The response does not contain JSON data\r",
+							"  // Do something else\r",
+							"  console.log(\"The response does not contain JSON data\");\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{token}",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"khqr_string\":\"00020101021230340016amkbkhppxxx@amkb01032340203AMK520449005802KH5916សហ#$ស ស%ហ&eថ ក6010Phnom Penh540820400.0053031165502025603400622305092340005450706Bill2463044C97\",\r\n    \"currency\": \"USD\",\r\n    \"amount\": 10.20,\r\n    \"ref_no\": \"FT33909222190\",\r\n    \"note\": \"\",\r\n    \"issuer_id\": \"issuingbank@bank\",\r\n    \"issuer_name\": \"Example Bank\",\r\n    \"khqr_hash\": \"b900f87b\"\r\n}"
+				},
+				"url": {
+					"raw": "https://bankapi-demo.bill24.net/qr/confirm",
+					"protocol": "https",
+					"host": [
+						"bankapi-demo",
+						"bill24",
+						"net"
+					],
+					"path": [
+						"qr",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit payment v2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response=pm.response.json();\r",
+							"\r",
+							"pm.test(\"Submit KHQR successfully\", ()=>{\r",
+							"    pm.expect(response.message).to.eql(\"Payment success\");\r",
+							"    pm.expect(response.code).to.eql(\"SUCCESS\");\r",
+							"    pm.expect(response.data.payment_type).to.eql(\"full\");\r",
+							"});\r",
+							"\r",
+							"// Check if the response body is a JSON object\r",
+							"if (typeof response === \"object\") {\r",
+							"  // The response contains JSON data\r",
+							"  // Do something with the JSON data\r",
+							"  console.log(response);\r",
+							"  pm.test(\"response data json is Passed!\")\r",
+							"} else {\r",
+							"  // The response does not contain JSON data\r",
+							"  // Do something else\r",
+							"  console.log(\"The response does not contain JSON data\");\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{token}",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"khqr_string\":\"00020101021230340016amkbkhppxxx@amkb01032340203AMK520449005802KH5916សហ#$ស ស%ហ&eថ ក6010Phnom Penh540820400.0053031165502025603400622305092340005450706Bill2463044C97\",\r\n    \"currency\": \"USD\",\r\n    \"amount\": 10.20,\r\n    \"ref_no\": \"FT33909222190\",\r\n    \"note\": \"\",\r\n    \"issuer_id\": \"issuingbank@bank\",\r\n    \"issuer_name\": \"Example Bank\",\r\n    \"khqr_hash\": \"b900f87b\"\r\n}"
+				},
+				"url": {
+					"raw": "https://bankapi-demo.bill24.net/qr/v2/confirm",
+					"protocol": "https",
+					"host": [
+						"bankapi-demo",
+						"bill24",
+						"net"
+					],
+					"path": [
+						"qr",
+						"v2",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
